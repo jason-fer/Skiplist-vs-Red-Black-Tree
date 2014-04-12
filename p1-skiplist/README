@@ -1,0 +1,99 @@
++-------------------------------------------------------------------------------
+| PROJECT 1: Skiplists
+| AUTHORS:   Jing Li (LEC 001), Tianbo Sui LEC 002, Jason Feriante (LEC 001)
+| DATE:      13 Apr 2014
+| EMAIL:     jli397@wisc.edu, tsui3@wisc.edu, feriante@cs.wisc.edu
+| SEMESTER:  CS577 Spring 2014
+| PROFESSOR: Deborah Joseph
++-------------------------------------------------------------------------------
+
++-------------------------------------------------------------------------------
+| Project requirements:
++-------------------------------------------------------------------------------
+Part 1. 
+Implement the randomized Skip List data structure and analyze its performance. 
+In particular, we proved probabalistic bounds on the height of the structure and 
+the number of "skip forward" moves needed.   Design experiments to analyze how 
+closely your structure meets the theoretical performance.  
+
+Part 2. 
+Analyze the performance of the Skip List as a concurrent data structure.   
+For this part of the project, implement a Red-Black Tree structure and compare 
+it to the Skip List as a concurrent data structure.   In particular, compare the 
+number of nodes that need to be "locked" when inserts/deletes are performed.   
+
++-------------------------------------------------------------------------------
+| Project questions:
++-------------------------------------------------------------------------------
+Who worked together on this project?: Jing Li, Tianbo Sui, and Jason Feriante
+********************************************************************************
+Part 1:
+********************************************************************************
+1-What types of data sets did you construct?
+--------------------------------------------------------------------------------
+  Some suggestions: you might just insert the elements 1..1000 into a skip list 
+  in   a variety of ways (increasing order without repeats, with repeats, 
+  clustered   values between 1..1000, a much larger data set, random orders, 
+  etc. Be creative and try different types of data sets).
+
+2-Did you compare different ways of extending the Skip list?
+--------------------------------------------------------------------------------
+  For example, you could insert the element into a new list until the coin flip 
+  = tails (regardless of how many levels this adds), or you could stop when you 
+  add a single new list.
+
+3-What did you discover about the height of the skip list? And, how balanced 
+does it “look?”
+--------------------------------------------------------------------------------
+  Think about good ways to present your data and compare it to what you would 
+  get in from the theoretical prediction.
+
+4-How did you design data sets for analyzing the query time?
+--------------------------------------------------------------------------------
+  Did you test this at the same time as you built the Skip List or after the 
+  list was constructed? Did you skew your data and if so how? How did the number 
+  of “skip forward” and “drop down” moves compare with the theoretical 
+  predictions? How did you do this comparison?
+
+********************************************************************************
+Part 2:
+********************************************************************************
+5-What type of height balanced tree did you implement?
+--------------------------------------------------------------------------------
+  Red-Black tree? Or, something different? Why did you make this choice? For the 
+  Skip List and the Search Tree, did you implement the data structures yourself, 
+  or use code implement by others? If so, how/why did you select the 
+  implementation?
+
+6-Show me a small example of how you “locked” nodes when inserting into your 
+Balanced Tree and a Skip List with the same data. How many nodes needed to 
+locked in each case? How did you generalize this to larger trees/lists?
+--------------------------------------------------------------------------------
+
+7-What types of experiments did you conduct to compare the Balanced Tree and 
+Skip List?
+--------------------------------------------------------------------------------
+  Again, how did you design your data sets? How many tests did you conduct? Did 
+  you modify your tests as you gained insight into the problem? What did you 
+  discover? Give me a nice presentation in a graph and/or chart.
+
++-------------------------------------------------------------------------------
+| Skip List FAQ:
++-------------------------------------------------------------------------------
+Q: How should we measure complexity?
+
+For the height of the skip list,  just count the number of levels (lists)
+For the "skip forward" and "drop down" moves, count the number of actual moves 
+made (not just a timing analysis)
+For the number of nodes locked, when a node is locked you should assume that 
+none of the nodes beyond it are reachable and hence they too are locked
+Q: When will there be demo times?
+
+I will begin demos the week of April 14th and continue throughout the semester. 
+I will post the windows of time available on the front page of the Learn@UW site 
+and a signup sheet on my office door.  You should sign up for a time to be 
+certain that it will be available.
+
+For the week of April 14th I will have demos on Wed morning from 9:30 - 11am, 
+or by appt. For the Wed morning time slot, there will be a signup on my 
+office door. To make an appointment, send me an email (joseph@cs.wisc.edu)
