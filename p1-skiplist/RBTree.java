@@ -1,28 +1,29 @@
 import java.io.PrintStream;
 
 /**
- * The RBTree is a height balanced tree, invented in the 1970s it was called a 
- * "symmetric binary btree". With binary search trees the average case is 
- * O(Log N) for insert, lookup & delete, where N is the number of nodes in the 
- * tree; worst case times are O(N). The height balanced RBTree allows us to 
- * guarantee O(N) time for all three methods. Adapted from the BST Class as 
- * taught in CS 367. Note: Items used must be from a class with the comparable 
- * interface. 
- * 
- * Derive complexity: n = 2^n - 1, n + 1 = 2^h, log(n+1) = h, O(log(n+1)),
- * ... asymptotically: O(log N)
+ * The Red Black Tree (RBTree) is a height balanced tree, invented in the 1970s 
+ * it was called a "symmetric binary btree". Search, Predecessor, Successor, 
+ * Min, Max, Insert and Delete operations can all be done in O(h) time where h 
+ * is the height of the tree Worst case height is 2lg(n + 1), where n is the 
+ * number of nodes. Asymptotically, the cost of basic operations is O(log N) 
+ * complexity. Note: Items used must be from a class with the comparable 
+ * interface.
  * @author Jason Feriante
+ */
+/**
+ * RBTree Rules:
+ * 1-the root is black
+ * 2-the NULL leaf nodes (leaves) are considered black
+ * 3-Red Property: if a node is red, it can only have black children
+ * 4-Black Property: every path from root to leaf must have the same number of 
+ * black nodes
+ * 5-all nodes must be either red or black.
  */
 public class RBTree<K extends Comparable <K>> {
 
 	private RBnode<K> root; // The root is black.
 	
 	public RBTree() { root = null; }
-	
-	// Red property: red nodes must have black children
-	
-	// Black property: every path from root to leaf must have the same number
-	// of black nodes
 	
 	/**
 	 * Public interface methods 
@@ -134,5 +135,23 @@ public class RBTree<K extends Comparable <K>> {
 		print(n.getLeft(), p); // Left traversal step
 		System.out.println(n.getKey()); // Visit
 		print(n.getRight(), p); // Right traversal step
+	}
+	
+	/**
+	 * Helper methods
+	 */
+	private void leftRotate(){
+		/**
+		 * y = x.right
+		 * x.right = y.left
+		 * if y.left != T.nil
+		 * 		y.left.p = x
+		 * y.p = x.p
+		 * if x.p == T.nil......
+		 */
+	}
+	
+	private void rightRotate(){
+		
 	}
 }

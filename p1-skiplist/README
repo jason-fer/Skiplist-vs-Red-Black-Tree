@@ -43,7 +43,7 @@ Part 1:
   add a single new list.
 
 3-What did you discover about the height of the skip list? And, how balanced 
-does it “look?”
+does it "look?"
 --------------------------------------------------------------------------------
   Think about good ways to present your data and compare it to what you would 
   get in from the theoretical prediction.
@@ -52,7 +52,7 @@ does it “look?”
 --------------------------------------------------------------------------------
   Did you test this at the same time as you built the Skip List or after the 
   list was constructed? Did you skew your data and if so how? How did the number 
-  of “skip forward” and “drop down” moves compare with the theoretical 
+  of "skip forward" and "drop down" moves compare with the theoretical 
   predictions? How did you do this comparison?
 
 ********************************************************************************
@@ -65,7 +65,7 @@ Part 2:
   or use code implement by others? If so, how/why did you select the 
   implementation?
 
-6-Show me a small example of how you “locked” nodes when inserting into your 
+6-Show me a small example of how you "locked" nodes when inserting into your 
 Balanced Tree and a Skip List with the same data. How many nodes needed to 
 locked in each case? How did you generalize this to larger trees/lists?
 --------------------------------------------------------------------------------
