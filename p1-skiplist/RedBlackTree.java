@@ -83,7 +83,20 @@ public class RedBlackTree<K extends Comparable <K>> {
 	public RedBlackNode<K> search(K key){
 		return search(root, key);
 	}
+	
+	public <K> K min(){
+		RedBlackNode<K> min = (RedBlackNode<K>) min(root);
+		return min.key;
+	}
+	
+	public <K> K max(){
+		RedBlackNode<K> max = (RedBlackNode<K>) max(root);
+		return max.key;
+	}
 
+	/**
+	 * Very similar to a Binary Search Tree insert
+	 */
 	@SuppressWarnings("unused")
 	private RedBlackNode<K> insert(RedBlackNode<K> root, RedBlackNode<K> z) 
 			throws DuplicateException {
@@ -91,42 +104,45 @@ public class RedBlackTree<K extends Comparable <K>> {
 		RedBlackNode<K> x = root;
 		while(x != null){
 			y = x;
-
-			if(z.key.compareTo(x.key) < 0){ // Case 1: z > x 
-				System.out.println("x:"+x.key+" is less than z:"+z.key);
+			if(z.key.compareTo(x.key) < 0){ // Case 1: z < x (-1)
+				//System.out.println("z:"+z.key+" vs x:"+x.key+" == -1");
 				x = x.left;
-			} else if(z.key.equals(x.key)) { // Case 2: z == x
+			} else if(z.key.equals(x.key)) { // Case 2: z == x (o)
 				throw new DuplicateException();
-			} else { // Case 3: z < x 
+			} else { // Case 3: z < x (0)
+				//System.out.println("z:"+z.key+" vs x:"+x.key+" == 1");
 				x = x.right;
 			}
-			
-			z.p = y;
-			
-			if(y == null){
-				root = z;
-			} else if(z.key.compareTo(y.key) < 0){
-				y.left = z;
-			} else if(z.key.equals(y.key)){
-				throw new DuplicateException();
-			} else {
-				y.right = z;
-			}
+		}	
+		z.p = y;
+		
+		if(y == null){
+			root = z;
+		} else if(z.key.compareTo(y.key) < 0){
+			y.left = z;
+		} else if(z.key.equals(y.key)){
+			throw new DuplicateException();
+		} else {
+			y.right = z;
 		}
-		//z.left = null;// Already initialized to null.
-		//z.right = null;// Already initialized to null.
-		//z.color = red;// Already initialized to red.
-		//return insertFixup(root, z);
-		return root;
+		
+		z.left = null;
+		z.right = null;
+		z.color = red;
+		return insertFixup(root, z);
+
 	}
 	
+	/**
+	 * Restore red black tree properties (which restores balance to the tree) 
+	 */
 	private RedBlackNode<K> insertFixup(RedBlackNode<K> root, RedBlackNode<K> z){
 		RedBlackNode<K> y = null;
 		z.color = red;
 		while(z != root && z.p.color == red){
 			if(z.p == z.p.p.left){
 				y = z.p.p.right;
-				if(y.color == red){
+				if(y != null && y.color == red){
 					z.p.color = black;
 					y.color = black;
 					z.p.p.color = red;
@@ -142,7 +158,7 @@ public class RedBlackTree<K extends Comparable <K>> {
 				}
 			} else {
 				y = z.p.p.left;
-				if(y.color == red){
+				if(y != null && y.color == red){
 					z.p.color = black;
 					y.color = black;
 					z.p.p.color = red;
@@ -174,7 +190,7 @@ public class RedBlackTree<K extends Comparable <K>> {
 			x = z.left;
 			transplant(root, z, z.left);
 		} else {
-			y = minimum(z.right);
+			y = min(z.right);
 			y_orig_color = y.color;
 			x = y.right;
 			if(y.p == z){
@@ -416,41 +432,41 @@ public class RedBlackTree<K extends Comparable <K>> {
 		return 1 + count(n.left) + count(n.right);
 	}
 
-	private RedBlackNode<K> minimum(RedBlackNode<K> n){
+	private RedBlackNode<K> min(RedBlackNode<K> n){
 		while(n.left != null){
 			n = n.left;
 		}
 		return n;
 	}
 	
-	private RedBlackNode<K> maximum(RedBlackNode<K> x){
-		while(x.right != null){
-			x = x.right;
+	private RedBlackNode<K> max(RedBlackNode<K> n){
+		while(n.right != null){
+			n = n.right;
 		}
-		return x;
+		return n;
 	}
 	
 	@SuppressWarnings("unused")
-	private RedBlackNode<K> predecessor(RedBlackNode<K> x){
-		if(x.left != null){ 
-			return maximum(x.left); 
+	private RedBlackNode<K> predecessor(RedBlackNode<K> n){
+		if(n.left != null){ 
+			return max(n.left); 
 		}
-		RedBlackNode<K> y = x.p;
-		while(y != null && x == y.left){ 
-			x = y; 
+		RedBlackNode<K> y = n.p;
+		while(y != null && n == y.left){ 
+			n = y; 
 			y = y.p; 
 		}
 		return y;
 	}
 	
 	@SuppressWarnings("unused")
-	private RedBlackNode<K> successor(RedBlackNode<K> x){
-		if(x.right != null){
-			return minimum(x.right);
+	private RedBlackNode<K> successor(RedBlackNode<K> n){
+		if(n.right != null){
+			return min(n.right);
 		}
-		RedBlackNode<K> y = x.p;
-		while(y != null && x == y.right){
-			x = y;
+		RedBlackNode<K> y = n.p;
+		while(y != null && n == y.right){
+			n = y;
 			y = y.p;
 		}
 		return y;
