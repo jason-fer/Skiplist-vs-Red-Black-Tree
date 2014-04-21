@@ -47,6 +47,19 @@ public class RedBlackNode<K> {
 	public void setColor(Color newColor) { color = newColor; }
 	
 	public void debug(){
-		System.out.println("RBTnode<K> left:"+left+", right:"+right+", key:"+key);
+		K left = null;
+		K right = null;
+		K key = null;
+		if(this.left != null){
+			left = this.left.key;
+		}
+		if(this.right != null){
+			left = this.right.key;
+		}
+		if(this.key != null){
+			key = this.key;
+		}
+		
+		System.out.println("RedBlackTreenode<K> left:"+left+", right:"+right+", key:"+key);
 	}
 }

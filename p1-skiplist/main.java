@@ -28,20 +28,27 @@ public class main {
 	public static void testRBTree() {
 		// @todo (confirm the red-black tree works correctly....)
 		
-		RedBlackTree<Integer> rbtree = new RedBlackTree<Integer>(30);
+		RedBlackTree<Integer> rbtree = new RedBlackTree<Integer>();
 		try {
+//			int i = 2;
+//			while(i < 10){
+//				rbtree.insert(i);
+//				System.out.println("insert i:"+i);
+//				i = i + 1;
+//			}
 			rbtree.insert(50);
 			rbtree.insert(20);
-			rbtree.insert(10);
+			rbtree.insert(30);
 			rbtree.insert(40);
 			rbtree.insert(25);
 			rbtree.insert(35);
 			rbtree.insert(90);
 			rbtree.insert(100);
+			rbtree.insert(110);
 			rbtree.insert(11);
-			rbtree.insert(12);
-			rbtree.insert(23);
-			rbtree.insert(24);
+//			rbtree.insert(12);
+//			rbtree.insert(23);
+//			rbtree.insert(24);
 		} catch (DuplicateException e) {
 			e.printStackTrace();
 		}
@@ -57,3 +64,4 @@ public class main {
 	}
 
 }
+//

@@ -48,9 +48,15 @@ public class RedBlackTree<K extends Comparable <K>> {
 		root.color = black;
 	}
 	
+	public RedBlackTree() { 
+		red = RedBlackNode.Color.red;
+		black = RedBlackNode.Color.black;
+		root = null;
+	}
+	
 	public void insert(K key) throws DuplicateException {
-		//root = insert(root, new RedBlackNode<K>(key));
 		root = insert(root, new RedBlackNode<K>(key));
+//		root.color = black;
 	}
 	
 	public boolean delete(K key) {
@@ -115,7 +121,6 @@ public class RedBlackTree<K extends Comparable <K>> {
 			}
 		}	
 		z.p = y;
-		
 		if(y == null){
 			root = z;
 		} else if(z.key.compareTo(y.key) < 0){
@@ -125,10 +130,10 @@ public class RedBlackTree<K extends Comparable <K>> {
 		} else {
 			y.right = z;
 		}
-		
-		z.left = null;
-		z.right = null;
+		//z.left = null;
+		//z.right = null;
 		z.color = red;
+//		return root;
 		return insertFixup(root, z);
 
 	}
@@ -138,8 +143,8 @@ public class RedBlackTree<K extends Comparable <K>> {
 	 */
 	private RedBlackNode<K> insertFixup(RedBlackNode<K> root, RedBlackNode<K> z){
 		RedBlackNode<K> y = null;
-		z.color = red;
-		while(z != root && z.p.color == red){
+		
+		while(z.p != null && z.p.color == red){
 			if(z.p == z.p.p.left){
 				y = z.p.p.right;
 				if(y != null && y.color == red){
@@ -150,11 +155,11 @@ public class RedBlackTree<K extends Comparable <K>> {
 				} else {
 					if(z == z.p.right){
 						z = z.p;
-						rotateLeft(root, z);
+						root = rotateLeft(root, z);
 					}
 					z.p.color = black;
 					z.p.p.color = red;
-					rotateRight(root, z.p.p);
+					root = rotateRight(root, z.p.p);
 				}
 			} else {
 				y = z.p.p.left;
@@ -166,11 +171,13 @@ public class RedBlackTree<K extends Comparable <K>> {
 				} else {
 					if(z == z.p.left){
 						z = z.p;
-						rotateRight(root, z);
+						System.out.println("rotate right yyyy:");
+						root = rotateRight(root, z);
 					}
 					z.p.color = black;
 					z.p.p.color = red;
-					rotateLeft(root, z.p.p);
+					System.out.println("rotate left:");
+					root = rotateLeft(root, z.p.p);
 				}
 			}
 		}
@@ -220,7 +227,7 @@ public class RedBlackTree<K extends Comparable <K>> {
 				if(w.color == red){
 					w.color = black;
 					x.p.color = red;
-					rotateLeft(root, x.p);
+					root = rotateLeft(root, x.p);
 					w = x.p.right;
 				}
 				if(w.left.color == black && w.right.color == black){ 
@@ -232,13 +239,13 @@ public class RedBlackTree<K extends Comparable <K>> {
 						// Case 3: right sibling's right child is black 
 						w.left.color = black;
 						w.color = red;
-						rotateRight(root, w);
+						root = rotateRight(root, w);
 						w = x.p.right;
 					} // Case 4: right sibling's left child is black
 					w.color = x.p.color;
 					x.p.color = black;
 					w.right.color = black;
-					rotateLeft(root, x.p);
+					root = rotateLeft(root, x.p);
 					x = root;
 				}
 			} else {
@@ -248,7 +255,7 @@ public class RedBlackTree<K extends Comparable <K>> {
 				if(w.color == red){
 					w.color = black;
 					x.p.color = red;
-					rotateLeft(root, x.p);
+					root = rotateLeft(root, x.p);
 					w = x.p.left;
 				}
 				if(w.left.color == black && w.right.color == black){ 
@@ -260,13 +267,13 @@ public class RedBlackTree<K extends Comparable <K>> {
 						// Case 3: left sibling's left child is black
 						w.right.color = black;
 						w.color = red;
-						rotateLeft(root, w);
+						root = rotateLeft(root, w);
 						w = x.p.left;
 					} // Case 4: left sibling's right child is black
 					w.color = x.p.color;
 					x.p.color = black;
 					w.left.color = black;
-					rotateRight(root, x.p);
+					root = rotateRight(root, x.p);
 					x = root;
 					
 				}
@@ -349,8 +356,7 @@ public class RedBlackTree<K extends Comparable <K>> {
 	}
 	
 	/**
-	  rotateLeft :
-	 
+	  root = rotateLeft:
 		from:
 		   x
 		  / \
@@ -365,7 +371,7 @@ public class RedBlackTree<K extends Comparable <K>> {
 	    / \
 	   a   b
 	*/
-	private void rotateLeft(RedBlackNode<K> root, RedBlackNode<K> x){
+	private RedBlackNode<K> rotateLeft(RedBlackNode<K> root, RedBlackNode<K> x){
 		if(x.right == null) throw new NullPointerException();
 		RedBlackNode<K> y;
 		y = x.right;
@@ -383,43 +389,45 @@ public class RedBlackTree<K extends Comparable <K>> {
 		}
 		y.left = x;
 		x.p = y;
+		return root;
 	}
 	
 	/**
-	 rotateRight :
-	 
+	 root = rotateRight:
 		from:
-		       x
+		       n
 		      / \
-		     y   c
+		     t   c
 		    / \
 		   a   b
 		
 		to:
-		   y
+		   t
 		  / \
-		 a   x
+		 a   n
 		    / \
 		   b   c
 	 */
-	private void rotateRight(RedBlackNode<K> root, RedBlackNode<K> x){
-		if(x.left == null) throw new NullPointerException();
-		RedBlackNode<K> y;
-		y = x.left;
-		x.left = y.right;
-		if(y.right != null){
-			y.right.p = x;
+	private RedBlackNode<K> rotateRight(RedBlackNode<K> root, RedBlackNode<K> node){
+		if(node.left == null) throw new NullPointerException();
+		RedBlackNode<K> tmp;
+		tmp = node.left;
+		node.left = tmp.right;
+		if(tmp.right != null){
+			tmp.right.p = node;
 		}
-		y.p = x.p;
-		if(x.p == null){
-			root = y;
-		} else if(x == x.p.right){
-			x.p.right = y;
+		tmp.p = node.p;
+		if(node.p == null){
+			root = tmp;
+		} else if(node == node.p.right){
+			node.p.right = tmp;
 		} else {
-			x.p.left = y;
+			node.p.left = tmp;
 		}
-		y.right = x;
-		x.p = y;
+		tmp.right = node;
+		node.p = tmp;
+		
+		return root;
 	}
 	
 	private int height(RedBlackNode<K> n){
