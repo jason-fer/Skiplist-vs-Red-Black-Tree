@@ -1,5 +1,3 @@
-import java.io.PrintStream;
-
 /**
  * The Red Black Tree is a height balanced tree, invented in the 1970s 
  * it was called a "symmetric binary btree". Search, Predecessor, Successor, 
@@ -56,7 +54,6 @@ public class RedBlackTree<K extends Comparable <K>> {
 	
 	public void insert(K key) throws DuplicateException {
 		root = insert(root, new RedBlackNode<K>(key));
-//		root.color = black;
 	}
 	
 	public boolean delete(K key) {
@@ -107,7 +104,7 @@ public class RedBlackTree<K extends Comparable <K>> {
 			throws DuplicateException {
 		RedBlackNode<K> y = null;
 		RedBlackNode<K> x = root;
-		RedBlackNode<K> orig = z;
+
 		while(x != null){
 			y = x;
 			if(z.key.compareTo(x.key) < 0){ // Case 1: z < x (-1)
@@ -131,11 +128,6 @@ public class RedBlackTree<K extends Comparable <K>> {
 		z.left = null;
 		z.right = null;
 		z.color = red;
-//		if(((Integer) orig.key) == 10){
-//			System.out.println("before insert fixup");
-//			print();
-//			z.debug();
-//		}
 		return insertFixup(root, z);
 	}
 	
@@ -145,13 +137,14 @@ public class RedBlackTree<K extends Comparable <K>> {
 	private RedBlackNode<K> insertFixup(RedBlackNode<K> root, RedBlackNode<K> z){
 		RedBlackNode<K> y = null;
 		RedBlackNode<K> orig = z;
+		
 		while(z.p != null && z.p.color == red){
 			if(z.p == z.p.p.left){
 				y = z.p.p.right;
 				if(y != null && y.color == red){ // Case 1: z's uncle y is red
-					z.p.color = black;
-					y.color = black;
-					z.p.p.color = red;
+					z.p.color = black; // Parent
+					y.color = black; // Uncle
+					z.p.p.color = red; // Grandparent
 					z = z.p.p;
 				} else {
 					// Case 2: z's uncle y is black and z is a right child
@@ -186,12 +179,8 @@ public class RedBlackTree<K extends Comparable <K>> {
 				}
 			}
 		}
+
 	    root.color = black;
-//		if(((Integer) orig.key) == 10){
-//			System.out.println("before insert fixup");
-//			print();
-//			z.debug();
-//		}
 	    return root;
 	}
 	
@@ -286,7 +275,6 @@ public class RedBlackTree<K extends Comparable <K>> {
 					w.left.color = black;
 					root = rotateRight(root, x.p);
 					x = root;
-					
 				}
 			}
 		}

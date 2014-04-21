@@ -31,8 +31,11 @@ public class main {
 		RedBlackTree<Integer> rbtree = new RedBlackTree<Integer>();
 		try {
 			int i = 1;
-			while(i <= 10){
+			while(i <= 6){
 				rbtree.insert(i);
+//				if(i == 5) { rbtree.print(); System.out.println("-----------------------------------------------------"); }
+//				rbtree.print();
+//				System.out.println("-----------------------------------------------------");
 //				System.out.println("insert i:"+i);
 				i = i + 1;
 			}
