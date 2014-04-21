@@ -28,7 +28,7 @@ public class main {
 	public static void testRBTree() {
 		// @todo (confirm the red-black tree works correctly....)
 		
-		RedBlackTree<Integer> rbtree = new RedBlackTree<Integer>();
+		RedBlackTree_orig<Integer> rbtree = new RedBlackTree_orig<Integer>();
 		try {
 			int i = 1;
 			while(i <= 6){
