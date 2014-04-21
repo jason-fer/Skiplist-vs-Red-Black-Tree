@@ -65,7 +65,6 @@ public class RedBlackTree<K extends Comparable <K>> {
 		if(n == null) return false;
 		delete(root, n);
 		return true; // Assume it worked..
-//		root = delete(root, key);
 	}
 	
 	// Identical to a binary search tree lookup
@@ -108,15 +107,14 @@ public class RedBlackTree<K extends Comparable <K>> {
 			throws DuplicateException {
 		RedBlackNode<K> y = null;
 		RedBlackNode<K> x = root;
+		RedBlackNode<K> orig = z;
 		while(x != null){
 			y = x;
 			if(z.key.compareTo(x.key) < 0){ // Case 1: z < x (-1)
-				//System.out.println("z:"+z.key+" vs x:"+x.key+" == -1");
 				x = x.left;
 			} else if(z.key.equals(x.key)) { // Case 2: z == x (o)
 				throw new DuplicateException();
 			} else { // Case 3: z < x (0)
-				//System.out.println("z:"+z.key+" vs x:"+x.key+" == 1");
 				x = x.right;
 			}
 		}	
@@ -130,12 +128,15 @@ public class RedBlackTree<K extends Comparable <K>> {
 		} else {
 			y.right = z;
 		}
-		//z.left = null;
-		//z.right = null;
+		z.left = null;
+		z.right = null;
 		z.color = red;
-//		return root;
+//		if(((Integer) orig.key) == 10){
+//			System.out.println("before insert fixup");
+//			print();
+//			z.debug();
+//		}
 		return insertFixup(root, z);
-
 	}
 	
 	/**
@@ -143,47 +144,57 @@ public class RedBlackTree<K extends Comparable <K>> {
 	 */
 	private RedBlackNode<K> insertFixup(RedBlackNode<K> root, RedBlackNode<K> z){
 		RedBlackNode<K> y = null;
-		
+		RedBlackNode<K> orig = z;
 		while(z.p != null && z.p.color == red){
 			if(z.p == z.p.p.left){
 				y = z.p.p.right;
-				if(y != null && y.color == red){
+				if(y != null && y.color == red){ // Case 1: z's uncle y is red
 					z.p.color = black;
 					y.color = black;
 					z.p.p.color = red;
 					z = z.p.p;
 				} else {
+					// Case 2: z's uncle y is black and z is a right child
 					if(z == z.p.right){
 						z = z.p;
+						// Transform Case 2 into Case 3 with a rotateLeft 
 						root = rotateLeft(root, z);
 					}
-					z.p.color = black;
+					// Case 3: z's uncle y is black and z is a left child
+					z.p.color = black; // This terminates while-loop
 					z.p.p.color = red;
 					root = rotateRight(root, z.p.p);
 				}
-			} else {
+			} else { 
 				y = z.p.p.left;
-				if(y != null && y.color == red){
+				if(y != null && y.color == red){ // Case 4: z's uncle y is red
 					z.p.color = black;
 					y.color = black;
 					z.p.p.color = red;
 					z = z.p.p;
 				} else {
+					// Case 5: z's uncle y is black and z is a left child
 					if(z == z.p.left){
 						z = z.p;
-						System.out.println("rotate right yyyy:");
+						// Transform Case 2 into Case 3 with a rotateRight
 						root = rotateRight(root, z);
 					}
-					z.p.color = black;
+					// Case 3: z's uncle y is black and z is a right child
+					z.p.color = black; // This terminates while-loop
 					z.p.p.color = red;
-					System.out.println("rotate left:");
 					root = rotateLeft(root, z.p.p);
 				}
 			}
 		}
 	    root.color = black;
+//		if(((Integer) orig.key) == 10){
+//			System.out.println("before insert fixup");
+//			print();
+//			z.debug();
+//		}
 	    return root;
 	}
+	
 
 	private void delete(RedBlackNode<K> root, RedBlackNode<K> z){
 		RedBlackNode<K> x;

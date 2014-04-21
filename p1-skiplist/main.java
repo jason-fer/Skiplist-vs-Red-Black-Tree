@@ -30,22 +30,24 @@ public class main {
 		
 		RedBlackTree<Integer> rbtree = new RedBlackTree<Integer>();
 		try {
-//			int i = 2;
-//			while(i < 10){
-//				rbtree.insert(i);
+			int i = 1;
+			while(i <= 10){
+				rbtree.insert(i);
 //				System.out.println("insert i:"+i);
-//				i = i + 1;
-//			}
-			rbtree.insert(50);
-			rbtree.insert(20);
-			rbtree.insert(30);
-			rbtree.insert(40);
-			rbtree.insert(25);
-			rbtree.insert(35);
-			rbtree.insert(90);
-			rbtree.insert(100);
-			rbtree.insert(110);
-			rbtree.insert(11);
+				i = i + 1;
+			}
+//			rbtree.insert(50);
+//			rbtree.insert(20);
+//			rbtree.insert(30);
+//			rbtree.insert(40);
+//			rbtree.insert(25);
+//			rbtree.insert(35);
+//			rbtree.insert(90);
+//			rbtree.insert(100);
+//			rbtree.insert(110);
+//			rbtree.insert(11);
+//			rbtree.insert(13);
+			
 //			rbtree.insert(12);
 //			rbtree.insert(23);
 //			rbtree.insert(24);

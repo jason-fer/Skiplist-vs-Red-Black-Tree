@@ -50,6 +50,7 @@ public class RedBlackNode<K> {
 		K left = null;
 		K right = null;
 		K key = null;
+		K pkey = null;
 		if(this.left != null){
 			left = this.left.key;
 		}
@@ -59,7 +60,11 @@ public class RedBlackNode<K> {
 		if(this.key != null){
 			key = this.key;
 		}
+		if(this.p != null){
+			pkey = this.p.key;
+		}
 		
-		System.out.println("RedBlackTreenode<K> left:"+left+", right:"+right+", key:"+key);
+		System.out.println("RBTNode left:"+left+", right:"+right+
+				", key:"+key+", parent val:"+pkey);
 	}
 }
