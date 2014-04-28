@@ -162,8 +162,7 @@ public class SkipList {
 	     while ( p != null )
 	     {
 	        s = getOneRow( p );
-		System.out.println(s);
-
+	        System.out.println(s);
 	        p = p.down;
 	     }
 	  }
@@ -218,7 +217,7 @@ public class SkipList {
 	     while ( p != null )
 	     {
 	        s = getOneColumn( p );
-		System.out.println(s);
+	        System.out.println(s);
 
 	        p = p.right;
 	     }
@@ -237,5 +236,14 @@ public class SkipList {
 	     }
 
 	     return(s);
+	  }
+	  
+	  public int getHeight(){
+		  // Add one due to zero-based indexing
+		  return h + 1;
+	  }
+	  
+	  public int getNodeCount(){
+		  return n;
 	  }
 }
