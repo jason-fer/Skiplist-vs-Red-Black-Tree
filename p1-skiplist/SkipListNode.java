@@ -1,3 +1,6 @@
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
+
 /*Skip List Node structure*/
 public class SkipListNode {
 	public String key; //each node has a key, the numeric value of which
@@ -10,6 +13,9 @@ public class SkipListNode {
 	public SkipListNode down; //down link
 	public SkipListNode left; //left link
 	public SkipListNode right; //right link
+	
+	public Lock lock;
+	
 	
 	public static String negInf = "negInf"; //key of negative infinity
 	public static String posInf = "posInf"; //key of positive infinity

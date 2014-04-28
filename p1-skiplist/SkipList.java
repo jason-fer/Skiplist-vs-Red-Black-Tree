@@ -1,4 +1,5 @@
 import java.util.Random;
+import java.util.concurrent.locks.ReentrantLock;
 public class SkipList {
 	/*Usage of head and tail allows us
 	 *to easily add a new layer above the top layer
@@ -10,6 +11,7 @@ public class SkipList {
 	public int h; //Height of the Skip List
 	public Random r; //Coin toss to determine the height of a newly added Node
 	
+	public int lockNum = 0;
 	/*the constructor will construct an empty Skip List with one layer*/
 	public SkipList() {
 		SkipListNode p1, p2;
@@ -62,17 +64,26 @@ public class SkipList {
 		/*2. If the value is not found, p is now the largest node that
 		 *   has a value <= v and is at the lowest level. Insert q=(k,v)
 		 */
+		p.lock = new ReentrantLock();//&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+		p.lock.lock();//&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+		
 		q = new SkipListNode(k,v);
 		q.left = p;
 		q.right = p.right;
 		p.right.left = q;
 		p.right = q;
-		/*3. Make a "tower" of the node inserted with a random height*/
+		/*3. Make a "tower" of the node inserted with a random height*/		
+		lockNum++;//&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+		p.lock.unlock();//&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+		
+		
 		i = 0; //current level = 0;
 		while (r.nextDouble() < 0.5){ //toss the coin and get head
 			//build one more level
 			/*check if we need to add one more layer*/
 			if (i >= h) {//we reached the top level
+//				head.lock = new ReentrantLock();
+				
 				/*Create a top layer*/
 				SkipListNode l1, l2;
 				l1 = new SkipListNode(SkipListNode.negInf, null);
@@ -86,12 +97,21 @@ public class SkipList {
 				head = l1;
 				tail = l2;
 				h = h + 1;
+				
+//				lockNumH++;
+//				head.lock.unlock();
 			}
 			/*Find the first on p's left with an up-link*/
 			while (p.up == null){
 				p = p.left;
+				
 			}
+			
 			p = p.up; //make p point to this up node
+			
+			p.lock = new ReentrantLock();//&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+			p.lock.lock();//&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+			
 			/*Add one more node with key k and value v to the column*/
 			SkipListNode e;
 			e = new SkipListNode(k, v);
@@ -103,6 +123,9 @@ public class SkipList {
 			q.up = e;
 			q = e; //set q up for the next iteration(if there is one)
 			i = i + 1;
+			
+			lockNum++;//&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+			p.lock.unlock();//&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
 		}
 		n = n + 1; //one more distinct node in the Skip List
 		return(null); //we inserted it, there's no old value
@@ -122,8 +145,6 @@ public class SkipList {
 		}
 		return(v);
 	}
-	
-	
 	
 	/*
 	 * The source of printing methods below:
