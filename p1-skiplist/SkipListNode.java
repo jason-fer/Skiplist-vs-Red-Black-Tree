@@ -14,7 +14,7 @@ public class SkipListNode {
 	public SkipListNode left; //left link
 	public SkipListNode right; //right link
 	
-	public Lock lock;
+	public Lock lock = new ReentrantLock();;
 	
 	
 	public static String negInf = "negInf"; //key of negative infinity

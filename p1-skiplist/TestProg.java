@@ -1,3 +1,4 @@
+import java.util.Random;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -10,17 +11,21 @@ public class TestProg
    {
 	  final SkipList S = new SkipList();
 	  final Lock lock = new ReentrantLock();
-	  for(int j=0;j<2;j++){
+	  final Random r = new Random();
+	  for(int j=0;j<100;j++){
 		  new Thread(new Runnable(){ 
 			  public void run() { 
 				  int i;
-				  lock.lock();//&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
-				  for ( i = 0; i < 100; i++ )
+//				  lock.lock();//&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+				  for ( i = 0; i < 3000; i++ )
 			      {
-			         S.insert("" + i,  i);
+					 int b = r.nextInt(3000);//生成29以内的随机数
+			         S.insert("" + b,  b);
+//			         S.insert("" + i,  i);
 			      }
-				  lock.unlock();//&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+//				  lock.unlock();//&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
 				  System.out.println(Thread.currentThread().getName()+": "+S.lockNum+"    ");
+				  S.lockNum=0;
 			  }
 		  }).start();
 	  }

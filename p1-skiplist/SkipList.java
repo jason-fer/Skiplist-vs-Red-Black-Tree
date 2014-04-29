@@ -64,13 +64,15 @@ public class SkipList {
 		/*2. If the value is not found, p is now the largest node that
 		 *   has a value <= v and is at the lowest level. Insert q=(k,v)
 		 */
-		p.lock = new ReentrantLock();//&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
 		p.lock.lock();//&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
 		
 		q = new SkipListNode(k,v);
 		q.left = p;
 		q.right = p.right;
+		p.right.lock.lock();//&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
 		p.right.left = q;
+		lockNum++;//&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+		p.right.lock.unlock();//&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
 		p.right = q;
 		/*3. Make a "tower" of the node inserted with a random height*/		
 		lockNum++;//&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
@@ -109,7 +111,6 @@ public class SkipList {
 			
 			p = p.up; //make p point to this up node
 			
-			p.lock = new ReentrantLock();//&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
 			p.lock.lock();//&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
 			
 			/*Add one more node with key k and value v to the column*/
@@ -118,7 +119,10 @@ public class SkipList {
 			e.left = p;
 			e.right = p.right;
 			e.down = q;
+			p.right.lock.lock();//&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
 			p.right.left = e;
+			lockNum++;//&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+			p.right.lock.unlock();//&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
 			p.right = e;
 			q.up = e;
 			q = e; //set q up for the next iteration(if there is one)
@@ -183,7 +187,8 @@ public class SkipList {
 	     while ( p != null )
 	     {
 	        s = getOneRow( p );
-	        System.out.println(s);
+		System.out.println(s);
+
 	        p = p.down;
 	     }
 	  }
@@ -238,7 +243,7 @@ public class SkipList {
 	     while ( p != null )
 	     {
 	        s = getOneColumn( p );
-	        System.out.println(s);
+		System.out.println(s);
 
 	        p = p.right;
 	     }
@@ -257,14 +262,5 @@ public class SkipList {
 	     }
 
 	     return(s);
-	  }
-	  
-	  public int getHeight(){
-		  // Add one due to zero-based indexing
-		  return h + 1;
-	  }
-	  
-	  public int getNodeCount(){
-		  return n;
 	  }
 }
